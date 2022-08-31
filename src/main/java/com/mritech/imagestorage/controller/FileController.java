@@ -34,4 +34,22 @@ public class FileController {
                 .body(imageData);
 
     }
+
+    @PostMapping("/fileSystem")
+    public ResponseEntity<?> uploadImageToFileSystem(@RequestParam("image")MultipartFile file) {
+
+        String uploadImage = storageService.uploadImageInFileSystem(file);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(uploadImage);
+    }
+
+    @GetMapping("/fileSystem/{fileName}")
+    public  ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) {
+
+        byte[] imageData = storageService.downloadImageFromFileSystem(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+
+    }
 }
